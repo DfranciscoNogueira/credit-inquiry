@@ -1,0 +1,65 @@
+<div class="container">
+  <header class="jumbotron">
+    <h1 class="mb-4 text-center">Pesquisa de Crédito</h1>
+  </header>
+</div>
+
+<form [formGroup]="searchForm" (ngSubmit)="search()">
+  <div class="container mt-5">
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <label for="searchType" class="form-label">Pesquisar por:</label>
+        <select id="searchType" formControlName="searchType" class="form-control">
+          <option value="numeroCredito">Número do Crédito</option>
+          <option value="numeroNFS-e">Número da NFS-e</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="searchInput" class="form-label">Digite o Número:</label>
+        <input id="searchInput" type="text" autocomplete="off" formControlName="numberSearch" class="form-control" max="50" placeholder="Somente números" (keypress)="allowOnlyNumbers($event)">
+      </div>
+      <div class="col-md-5 d-flex align-items-end">
+        <button class="btn btn-primary mr-2" type="submit">Pesquisar</button>
+        <button class="btn btn-secondary" type="button" (click)="clearInputs()">Limpar</button>
+      </div>
+    </div>
+
+    <div class="alert alert-primary" role="alert" *ngIf="credits?.length == 0">
+      Realize uma pesquisa
+    </div>
+
+    <!-- Tabela -->
+    <div class="table-responsive" *ngIf="credits && credits.length > 0">
+      <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th class="text-center">Número Crédito</th>
+            <th class="text-center">Número NFS-e</th>
+            <th class="text-center">Data Constituição</th>
+            <th class="text-center">Valor ISSQN</th>
+            <th class="text-center">Tipo Credito</th>
+            <th class="text-center">Simples Nacional</th>
+            <th class="text-center">Alíquota</th>
+            <th class="text-center">Valor Faturado</th>
+            <th class="text-center">Valor Dedução</th>
+            <th class="text-center">Base Cálculo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let credit of credits; let i = index">
+            <td class="text-center">{{credit.numeroCredito}}</td>
+            <td class="text-center">{{credit.numeroNfse}}</td>
+            <td class="text-center">{{credit.dataConstituicao}}</td>
+            <td class="text-center">{{credit.valorIssqn}}</td>
+            <td class="text-center">{{credit.tipoCredito}}</td>
+            <td class="text-center">{{credit.simplesNacional}}</td>
+            <td class="text-center">{{credit.aliquota}} %</td>
+            <td class="text-center">{{credit.valorFaturado}}</td>
+            <td class="text-center">{{credit.valorDeducao}}</td>
+            <td class="text-center">{{credit.baseCalculo}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</form>
